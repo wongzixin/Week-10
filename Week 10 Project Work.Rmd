@@ -1,0 +1,83 @@
+---
+title: "Week 10 Final Project Work"
+author: "Wong Zi Xin"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r, eval=TRUE,echo=TRUE}
+install.packages("tidyverse")
+library(tidyverse) 
+main_data <- read_csv("YearXPassenger.csv")
+```
+
+```{r, eval=TRUE,echo=TRUE}
+glimpse(main_data)
+```
+
+```{r, eval=TRUE,echo=TRUE}
+library(ggplot2)
+
+data <- data.frame(
+  Year = c(2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022),
+  Passengers = c(1940870998, 1957039604, 1993921773, 2090264018, 2200784362, 2353855648, 2538298567, 2687118655, 2781871120, 670004952, 916286346, 1993529416)
+)
+
+install.packages("scales")
+library(scales)
+
+ggplot(data, aes(x=Year, y=Passengers)) +
+  geom_line() +
+  geom_point() +
+  theme_minimal() +
+  labs(title="Yearly Number of Passengers", x="Year", y="Number of Passengers") +
+  scale_x_continuous(breaks = seq(min(data$Year), max(data$Year), by = 1)) +
+  scale_y_continuous(labels = comma)
+```
+
+```{r, eval=TRUE,echo=TRUE}
+library(ggplot2)
+
+countries <- c("Austria", "Belgium", "Bulgaria", "Switzerland", "Cyprus", "Czech Republic", 
+               "Germany", "Denmark", "Estonia", "Greece", "Spain", "Finland", "France", 
+               "Croatia", "Hungary", "Ireland", "Iceland", "Italy", "Lithuania", "Luxembourg", 
+               "Latvia", "Malta", "Netherlands", "Norway", "Poland", "Portugal", "Romania", 
+               "Sweden", "Slovenia", "Slovakia")
+
+passengers <- c(298932566, 321254798, 97534094, 517992316, 93822450, 147668980, 2064031685, 
+                320542978, 26235153, 494633376, 2024500025, 191461837, 1549182646, 81337127, 
+                122948405, 318348005, 60403135, 1421709674, 49761994, 33365620, 60567731, 
+                55473084, 714548819, 395550066, 353061444, 444634543, 163884824, 354426755, 
+                14827401, 21823522)
+
+df <- data.frame(Country = countries, Number_of_Passengers = passengers)
+
+ggplot(data = df, aes(x = reorder(Country, -Number_of_Passengers), y = Number_of_Passengers)) +
+  geom_bar(stat = "identity", fill = "grey") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+   scale_y_continuous(labels = scales::comma) +
+  labs(title = "Number of Passengers by Country", x = "Country", y = "Number of Passengers")
+
+```
+
+```{r, eval=TRUE,echo=TRUE}
+library(ggplot2)
+
+data <- data.frame(
+  Country = c("AT", "BE", "BG", "CH", "CY", "CZ", "DE", "DK", "EE", "EL", "ES", 
+              "FI", "FR", "HR", "HU", "IE", "IS", "IT", "LT", "LU", "LV", "MT", 
+              "NL", "NO", "PL", "PT", "RO", "SE", "SI", "SK"),
+  Passengers = c(298932566, 321254798, 97534094, 517992316, 93822450, 147668980, 
+                 2064031685, 320542978, 26235153, 494633376, 2024500025, 191461837, 
+                 1549182646, 81337127, 122948405, 318348005, 60403135, 1421709674, 
+                 49761994, 3336520, 60567731, 55473084, 714548819, 395550066, 
+                 353061444, 444634543, 163884824, 354426755, 14827401, 21823522)
+)
+
+ggplot(data, aes(x = reorder(Country, -Passengers), y = Passengers)) + 
+  geom_bar(stat = "identity", fill = "grey") +
+  theme_minimal() +
+  labs(title="Number of Passengers by Country", x="Country", y="Number of Passengers") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_y_continuous(labels = scales::comma)
+```
